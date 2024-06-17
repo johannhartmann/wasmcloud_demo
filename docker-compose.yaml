@@ -16,6 +16,7 @@ services:
       - "8222:8222"
     command:
       - "-c=/etc/nats/nats-server.conf"
+      - "-js"
     volumes:
       - ./nats.websocket.conf:/etc/nats/nats-server.conf
     
