@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-schema
+      author: "joriatyBen"
+      changes:
+        - sql:
+            endDelimiter: ;
+            splitStatements: true
+            sql: "CREATE SCHEMA IF NOT EXISTS public"
+            stripComments: false
