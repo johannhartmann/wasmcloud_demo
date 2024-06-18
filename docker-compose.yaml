@@ -36,7 +36,20 @@ services:
       - "-js"
     volumes:
       - ./nats.websocket.conf:/etc/nats/nats-server.conf
-    
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/root/redis
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+
   registry:
     image: registry:2.8
     ports:
