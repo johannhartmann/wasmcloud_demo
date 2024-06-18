@@ -7,6 +7,23 @@
 
 version: "3"
 services:
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=p05tgr3$
+      - POSTGRES_DB=public
+
+  migrate:
+    image: liquibase
+    volumes:
+      - ./compose/:/files/
+    entrypoint:
+      - sh
+      - -c
+      - "cp migration.yaml .  && liquibase update --url jdbc:postgresql://postgres:5432/public --username postgres --password p05tgr3$ --changelog-file migration.yaml"
   nats:
     image: nats:2.10-alpine
     ports:
@@ -15,7 +32,7 @@ services:
       - "6222:6222"
       - "8222:8222"
     command:
-      - "-c=/etc/nats/nats-server.conf"
+      #- "-c=/etc/nats/nats-server.conf"
       - "-js"
     volumes:
       - ./nats.websocket.conf:/etc/nats/nats-server.conf
@@ -90,6 +107,7 @@ services:
       - "nats"
       - "otelcol"
       - "tempo"
+      - "postgres"
     image: johannhartmann/wasmcloud:latest
     command:
       - "wasmcloud"
@@ -117,4 +135,3 @@ services:
       - WASMCLOUD_OBSERVABILITY_ENABLED=true
       - OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol:4318"
       - RUST_LOG=debug,hyper=info,async_nats=info,oci_distribution=info,cranelift_codegen=warn
- 
