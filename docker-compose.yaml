@@ -13,7 +13,7 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=p05tgr3$
+      - POSTGRES_PASSWORD=p05tgr3$$
       - POSTGRES_DB=public
 
   migrate:
@@ -23,7 +23,7 @@ services:
     entrypoint:
       - sh
       - -c
-      - "cp migration.yaml .  && liquibase update --url jdbc:postgresql://postgres:5432/public --username postgres --password p05tgr3$ --changelog-file migration.yaml"
+      - "cp migration.yaml .  && liquibase update --url jdbc:postgresql://postgres:5432/public --username postgres --password p05tgr3$$ --changelog-file migration.yaml"
   nats:
     image: nats:2.10-alpine
     ports:
@@ -32,7 +32,7 @@ services:
       - "6222:6222"
       - "8222:8222"
     command:
-      #- "-c=/etc/nats/nats-server.conf"
+      - "-c=/etc/nats/nats-server.conf"
       - "-js"
     volumes:
       - ./nats.websocket.conf:/etc/nats/nats-server.conf
